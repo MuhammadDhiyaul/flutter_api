@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +28,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Route::get('categories/{category}', 
 //      [\App\Http\Controllers\Api\CategoryController::class, 'show']);
 
-Route::apiResource('categories', 
-     App\Http\Controllers\Api\CategoryController::class);
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::apiResource('categories', 
+         App\Http\Controllers\Api\CategoryController::class);
 
-Route::apiResource('transactions', 
-     App\Http\Controllers\Api\TransactionController::class);
+    Route::apiResource('transactions', 
+         App\Http\Controllers\Api\TransactionController::class);
+});
+
