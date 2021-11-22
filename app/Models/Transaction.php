@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 class Transaction extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['category_id', 'transaction_date', 'amount', 'description'];
+    protected $fillable = ['category_id', 'transaction_date', 'amount', 'description', 'user_id'];
 
     protected $dates = ['transaction_date'];
 

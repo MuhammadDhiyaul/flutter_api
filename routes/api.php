@@ -36,23 +36,23 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::resource('transactions', \App\Http\Controllers\Api\TransactionController::class);
 });
 
-Route::post('/sanctum/token', function (Request $request) {
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-        'device_name' => 'required',
-    ]);
+// Route::post('/sanctum/token', function (Request $request) {
+//     $request->validate([
+//         'email' => 'required|email',
+//         'password' => 'required',
+//         'device_name' => 'required',
+//     ]);
 
-    $user = User::where('email', $request->email)->first();
+//     $user = User::where('email', $request->email)->first();
 
-    if (! $user || ! Hash::check($request->password, $user->password)) {
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
-        ]);
-    }
+//     if (! $user || ! Hash::check($request->password, $user->password)) {
+//         throw ValidationException::withMessages([
+//             'email' => ['The provided credentials are incorrect.'],
+//         ]);
+//     }
 
-    return $user->createToken($request->device_name)->plainTextToken;
-});
+//     return $user->createToken($request->device_name)->plainTextToken;
+// });
 
 Route::post('/auth/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
 Route::post('/auth/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);

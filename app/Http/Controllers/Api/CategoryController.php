@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Http\Resources\CategoryResource;
-use App\Http\Requests\StoreCategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return CategoryResource::collection(Category::select('id', 'name')->get());
+        return CategoryResource::collection(Category::all());
     }
 
     // public function index_v2()
@@ -33,7 +33,9 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        return new CategoryResource(Category::create($request->validated()));
+        $category = auth()->user()->categories()->create($request->validated());
+
+        return new CategoryResource($category);
     }
 
     /**
@@ -42,12 +44,12 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        $category = Category::find($id);
-        if (!$category) {
-            abort(404, 'Category not found');
-        }
+        // $category = Category::find($id);
+        // if (!$category) {
+        //     abort(404, 'Category not found');
+        // }
 
         return new CategoryResource($category);
     }
