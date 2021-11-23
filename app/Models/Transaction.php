@@ -31,5 +31,12 @@ class Transaction extends Model
             ->format('Y-m-d');
     }
 
-
+    protected static function booted()
+    {
+        if(auth()->check()){
+            static::addGlobalScope('by_user', function (Builder $builder) {
+                $builder->where('user_id', auth()->id());
+            });
+        }
+    }
 }
